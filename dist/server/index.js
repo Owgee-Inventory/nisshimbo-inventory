@@ -5,19 +5,15 @@ const ASSET_HEADERS = {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const assetPath = url.pathname === '/' ? '/index.html' : url.pathname;
-    const assetUrl = new URL(request.url);
-    assetUrl.pathname = assetPath;
-
-    const response = await env.ASSETS.fetch(new Request(assetUrl, request));
-    if (response.status === 404 && !assetPath.includes('.')) {
+    const response = await env.ASSETS.fetch(request);
+    if (response.status === 404 && url.pathname !== '/') {
       const fallbackUrl = new URL(request.url);
-      fallbackUrl.pathname = '/index.html';
+      fallbackUrl.pathname = '/';
       return env.ASSETS.fetch(new Request(fallbackUrl, request));
     }
 
     const headers = new Headers(response.headers);
-    if (assetPath.startsWith('/_next/') || assetPath.endsWith('.png') || assetPath.endsWith('.zip')) {
+    if (url.pathname.startsWith('/_next/') || url.pathname.endsWith('.png') || url.pathname.endsWith('.zip')) {
       Object.entries(ASSET_HEADERS).forEach(([key, value]) => headers.set(key, value));
     }
     return new Response(response.body, { status: response.status, headers });
