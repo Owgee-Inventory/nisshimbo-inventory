@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Nisshimbo Inventory · Mockup Library',
-  description: 'High-fidelity screen library for the Nisshimbo Inventory app.',
+  title: 'Nisshimbo Inventory · Interactive Prototype',
+  description: 'A working, role-aware prototype of the Nisshimbo Inventory app, with a separate high-resolution design index.',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
