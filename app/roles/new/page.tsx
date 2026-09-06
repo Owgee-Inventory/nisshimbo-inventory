@@ -1,10 +1,13 @@
 import Link from "next/link";
 
 import AppShell from "@/app/components/app-shell";
-import { permissionRecords } from "@/app/data/rbac";
 import RoleForm from "@/app/roles/role-form";
+import { createRole } from "@/lib/role-actions";
+import { getAllPermissionRecords } from "@/lib/permission-actions";
 
-export default function NewRolePage() {
+export default async function NewRolePage() {
+    const permissions = await getAllPermissionRecords();
+
     return (
         <AppShell activeSection="roles">
             <div className="mx-auto max-w-3xl">
@@ -13,7 +16,7 @@ export default function NewRolePage() {
                     <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#ef6b54]">Roles</p>
                     <h1 className="mt-3 text-3xl font-semibold tracking-[-0.045em]">Create a role</h1>
                     <p className="mt-3 text-sm leading-6 text-[#71817b]">Define a reusable access profile and choose the permissions it grants.</p>
-                    <div className="mt-8"><RoleForm mode="new" permissions={permissionRecords} /></div>
+                    <div className="mt-8"><RoleForm mode="new" permissions={permissions} action={createRole} /></div>
                 </div>
             </div>
         </AppShell>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import AppShell from "@/app/components/app-shell";
 import DeleteButton from "@/app/components/delete-button";
 import { getRolePermissions, permissionRecords, roleRecords } from "@/app/data/rbac";
+import { listRoles } from "@/lib/role-actions";
 
 function StatusPill({ active }: { active: boolean }) {
     return (
@@ -14,7 +15,11 @@ function StatusPill({ active }: { active: boolean }) {
     );
 }
 
-export default function RolesPage() {
+export default async function RolesPage() {
+    const roles = await listRoles();
+
+    const activeRoleCount = roles.filter((role) => role.active).length;
+
     return (
         <AppShell activeSection="roles">
             <div className="mx-auto max-w-6xl">
@@ -38,53 +43,13 @@ export default function RolesPage() {
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
                     <div className="rounded-2xl bg-[#fffdf8] p-5 shadow-[0_8px_25px_rgba(23,59,51,0.05)]">
                         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8a9993]">Total roles</p>
-                        <p className="mt-3 text-3xl font-semibold tracking-[-0.04em]">{roleRecords.length}</p>
+                        <p className="mt-3 text-3xl font-semibold tracking-[-0.04em]">{roles.length}</p>
                     </div>
                     <div className="rounded-2xl bg-[#fffdf8] p-5 shadow-[0_8px_25px_rgba(23,59,51,0.05)]">
                         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8a9993]">Active roles</p>
-                        <p className="mt-3 text-3xl font-semibold tracking-[-0.04em]">{roleRecords.filter((role) => role.active).length}</p>
-                    </div>
-                    <div className="rounded-2xl bg-[#fffdf8] p-5 shadow-[0_8px_25px_rgba(23,59,51,0.05)]">
-                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8a9993]">Available permissions</p>
-                        <p className="mt-3 text-3xl font-semibold tracking-[-0.04em]">{permissionRecords.length}</p>
+                        <p className="mt-3 text-3xl font-semibold tracking-[-0.04em]">{activeRoleCount}</p>
                     </div>
                 </div>
-
-                <section className="mt-6 overflow-hidden rounded-2xl border border-[#e1e7ee] bg-white shadow-[0_10px_30px_rgba(23,59,51,0.04)]">
-                    <div className="flex flex-col gap-3 border-b border-[#e1e7ee] px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#5686a6]">Permission matrix</p>
-                            <h2 className="mt-2 text-lg font-semibold">Role access at a glance</h2>
-                            <p className="mt-1 text-sm text-[#71817b]">Review which roles can perform each application action.</p>
-                        </div>
-                        <Link href="/permissions" className="text-sm font-semibold text-[#5686a6] transition hover:text-[#d95642]">Manage permissions →</Link>
-                    </div>
-
-                    <div className="overflow-x-auto p-4 sm:p-6">
-                        <table className="w-full min-w-[640px] overflow-hidden rounded-xl text-left text-sm">
-                            <thead className="bg-[#183550] text-xs uppercase tracking-[0.12em] text-white">
-                                <tr>
-                                    <th className="px-4 py-3 font-semibold">Capability</th>
-                                    {roleRecords.map((role) => <th key={role.id} className="px-4 py-3 text-center font-semibold">{role.name}</th>)}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-[#e8edf2] border-x border-b border-[#e8edf2]">
-                                {permissionRecords.map((permission) => (
-                                    <tr key={permission.id} className="transition hover:bg-[#f7fafe]">
-                                        <td className="px-4 py-3.5">
-                                            <span className="block font-semibold text-[#23443c]">{permission.name}</span>
-                                            <span className="mt-1 block font-mono text-[0.68rem] text-[#91a0ad]">{permission.key}</span>
-                                        </td>
-                                        {roleRecords.map((role) => {
-                                            const granted = role.permissionIds.includes(permission.id);
-                                            return <td key={role.id} className="px-4 py-3.5 text-center"><span className={granted ? "font-semibold text-[#2f9d75]" : "text-[#c4cdd5]"}>{granted ? "✓" : "—"}</span></td>;
-                                        })}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
 
                 <section className="mt-6 overflow-hidden rounded-2xl border border-[#e1e7ee] bg-white shadow-[0_10px_30px_rgba(23,59,51,0.04)]">
                     <div className="border-b border-[#e1e7ee] px-5 py-5 sm:px-6">
@@ -103,7 +68,7 @@ export default function RolesPage() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[#edf0ec]">
-                                {roleRecords.map((role) => (
+                                {roles.map((role) => (
                                     <tr key={role.id} className="align-middle transition hover:bg-[#fcfbf7]">
                                         <td className="px-6 py-5">
                                             <Link href={`/roles/${role.id}`} className="group block">
@@ -112,7 +77,7 @@ export default function RolesPage() {
                                             </Link>
                                         </td>
                                         <td className="px-6 py-5 text-sm text-[#71817b]">
-                                            {getRolePermissions(role).length} assigned
+                                            {role._count.rolePermissions} assigned
                                         </td>
                                         <td className="px-6 py-5"><StatusPill active={role.active} /></td>
                                         <td className="px-6 py-5">

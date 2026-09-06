@@ -3,15 +3,24 @@ import { notFound } from "next/navigation";
 
 import AppShell from "@/app/components/app-shell";
 import DeleteButton from "@/app/components/delete-button";
-import { getRole, getRolePermissions } from "@/app/data/rbac";
+import { getRole } from "@/lib/role-actions";
+import { isValidUuid } from "@/lib/validate-uuid";
 
 export default async function RoleDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const role = getRole(id);
+
+    const validUuid = await isValidUuid(id);
+
+    if (!validUuid) {
+        throw new Error("Invalid Uuid");
+    }
+
+    const role = await getRole(id);
 
     if (!role) notFound();
 
-    const permissions = getRolePermissions(role);
+    // const permissions = getRolePermissions(role);
+    const permissions = role.rolePermissions
 
     return (
         <AppShell activeSection="roles">
@@ -35,11 +44,22 @@ export default async function RoleDetailsPage({ params }: { params: Promise<{ id
                                 <h2 className="text-lg font-semibold">Assigned permissions</h2>
                                 <p className="mt-1 text-sm text-[#71817b]">{permissions.length} permission{permissions.length === 1 ? "" : "s"} currently assigned.</p>
                             </div>
-                            <p className="text-xs text-[#8a9993]">Last updated {role.updatedAt}</p>
+                            {/*<p className="text-xs text-[#8a9993]">Last updated {Date(role.updatedAt)}</p>*/}
+                            <p className="text-xs text-[#8a9993]">
+                                Last updated{" "}
+                                {new Date(role.updatedAt).toLocaleString("en-PH", {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    timeZone: "Asia/Manila",
+                                })}
+                            </p>
                         </div>
 
                         <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                            {permissions.map((permission) => (
+                            {permissions.map(({ permission }) => (
                                 <div key={permission.id} className="rounded-xl border border-[#e1e7e2] bg-white p-4">
                                     <p className="font-semibold text-[#23443c]">{permission.name}</p>
                                     <p className="mt-1 font-mono text-xs text-[#8a9993]">{permission.key}</p>
