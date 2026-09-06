@@ -105,7 +105,7 @@ export default function InviteUserForm({ roles }: Props) {
     return (
         <form className="space-y-7" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-semibold text-[#23443c]">
+                <label htmlFor="email" className="mb-2 block text-sm font-semibold text-[#173b33]">
                     Email address
                 </label>
 
@@ -116,12 +116,12 @@ export default function InviteUserForm({ roles }: Props) {
                     autoComplete="email"
                     placeholder="person@company.com"
                     required
-                    className="h-14 w-full rounded-xl border border-[#d6ded9] bg-white px-4 text-base text-[#173b33] outline-none transition placeholder:text-[#aab5b0] focus:border-[#ef6b54] focus:ring-4 focus:ring-[#ef6b54]/10"
+                    className="h-14 w-full rounded-xl border border-[#dce7df] bg-white px-4 text-base text-[#173b33] outline-none transition placeholder:text-[#aab5b0] focus:border-[#ef6b54] focus:ring-4 focus:ring-[#ef6b54]/10"
                 />
             </div>
 
             <fieldset>
-                <legend className="mb-2 block text-sm font-semibold text-[#23443c]">
+                <legend className="mb-2 block text-sm font-semibold text-[#173b33]">
                     Roles
                 </legend>
 
@@ -132,7 +132,7 @@ export default function InviteUserForm({ roles }: Props) {
                         aria-haspopup="listbox"
                         disabled={roles.length === 0}
                         onClick={() => setRoleMenuOpen((open) => !open)}
-                        className="flex min-h-14 w-full items-center justify-between gap-4 rounded-xl border border-[#d6ded9] bg-white px-4 text-left text-sm text-[#23443c] outline-none transition hover:border-[#a8b9b1] focus-visible:border-[#ef6b54] focus-visible:ring-4 focus-visible:ring-[#ef6b54]/10 disabled:cursor-not-allowed disabled:bg-[#f4f1ea] disabled:text-[#8a9993]"
+                        className="flex min-h-14 w-full items-center justify-between gap-4 rounded-xl border border-[#dce7df] bg-white px-4 text-left text-sm text-[#23443c] outline-none transition hover:border-[#a8b9b1] focus-visible:border-[#ef6b54] focus-visible:ring-4 focus-visible:ring-[#ef6b54]/10 disabled:cursor-not-allowed disabled:bg-[#f4f6fa] disabled:text-[#8a9993]"
                     >
                         <span className={selectedRoles.length ? "font-medium" : "text-[#8a9993]"}>
                             {roleSummary}
@@ -154,7 +154,7 @@ export default function InviteUserForm({ roles }: Props) {
                             role="listbox"
                             aria-label="Available roles"
                             aria-multiselectable="true"
-                            className="absolute z-10 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-[#d6ded9] bg-[#fffdf8] py-2 shadow-[0_12px_30px_rgba(23,59,51,0.12)]"
+                            className="absolute z-10 mt-2 max-h-72 w-full overflow-y-auto rounded-xl border border-[#dce7df] bg-white py-2 shadow-[0_12px_30px_rgba(23,59,51,0.12)]"
                         >
                             {roles.map((role) => {
                                 const selected = selectedRoleIds.includes(role.id);
@@ -162,7 +162,7 @@ export default function InviteUserForm({ roles }: Props) {
                                 return (
                                     <label
                                         key={role.id}
-                                        className="flex cursor-pointer items-start gap-3 px-4 py-3 transition hover:bg-[#f4f1ea]"
+                                        className="flex cursor-pointer items-start gap-3 px-4 py-3 transition hover:bg-[#f4f6fa]"
                                     >
                                         <input
                                             type="checkbox"
@@ -171,7 +171,7 @@ export default function InviteUserForm({ roles }: Props) {
                                             className="mt-0.5 size-4 shrink-0 accent-[#173b33]"
                                         />
                                         <span className="min-w-0">
-                                            <span className="block text-sm font-semibold text-[#23443c]">
+                                            <span className="block text-sm font-semibold text-[#173b33]">
                                                 {role.name}
                                             </span>
                                             <span className="mt-1 block text-xs leading-5 text-[#71817b]">
@@ -191,18 +191,18 @@ export default function InviteUserForm({ roles }: Props) {
             </fieldset>
 
             {roles.length === 0 && (
-                <p className="rounded-lg bg-[#fff3ed] px-4 py-3 text-sm text-[#a94435]">
+                <p className="rounded-lg border border-[#f2d0c8] bg-[#fff6f2] px-4 py-3 text-sm text-[#a94435]">
                     No active roles are available. Create an active role before sending an invitation.
                 </p>
             )}
 
             {error && (
-                <p role="alert" className="rounded-lg bg-[#fff3ed] px-4 py-3 text-sm text-[#a94435]">
+                <p role="alert" className="rounded-lg border border-[#f2d0c8] bg-[#fff6f2] px-4 py-3 text-sm text-[#a94435]">
                     {error}
                 </p>
             )}
             {message && (
-                <p role="status" className="rounded-lg bg-[#edf7f0] px-4 py-3 text-sm text-[#276943]">
+                <p role="status" className="rounded-lg border border-[#d3e8d8] bg-[#f1faf3] px-4 py-3 text-sm text-[#276943]">
                     {message}
                 </p>
             )}
