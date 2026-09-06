@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Nisshimbo Inventory | Sign in",
   description: "Sign in to the Nisshimbo Inventory workspace.",
+  icons: {
+    icon: "/nisshimbo-logo.png",
+    apple: "/nisshimbo-logo.png",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
