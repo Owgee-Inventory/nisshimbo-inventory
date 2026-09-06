@@ -3,6 +3,7 @@ import { getAuthenticatedUser } from "@/lib/auth/authorization";
 import { prisma } from "@/lib/prisma";
 
 export async function POST() {
+    // Test
     const user = await getAuthenticatedUser();
 
     if (!user) {
