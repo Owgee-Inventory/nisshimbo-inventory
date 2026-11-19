@@ -1,0 +1,285 @@
+.invitePage {
+  width: 100%;
+  max-width: 672px;
+  margin: 0 auto;
+}
+
+.invitePageBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #60736b;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  transition: color 150ms;
+}
+
+.invitePageBackLink:hover {
+  color: #173b33;
+}
+
+.invitePageBackLink:focus-visible {
+  outline: 2px solid #ef6b54;
+  outline-offset: 2px;
+}
+
+.invitePageCard {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #e2e8e4;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 25px rgb(23 59 51 / 4.5%);
+}
+
+.invitePageHeader {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e2e8e4;
+}
+
+.invitePageEyebrow {
+  color: #d45f4c;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.invitePageTitle {
+  margin-top: 12px;
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+.invitePageDescription {
+  max-width: 576px;
+  margin-top: 12px;
+  color: #71817b;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.invitePageFormContainer {
+  padding-top: 28px;
+}
+
+.inviteForm > * + * {
+  margin-top: 28px;
+}
+
+.inviteFormLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: #173b33;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.inviteFormInput {
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  border: 1px solid #dce7df;
+  border-radius: 12px;
+  outline: none;
+  background: white;
+  color: #173b33;
+  font-size: 16px;
+  line-height: 24px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.inviteFormInput::placeholder {
+  color: #aab5b0;
+}
+
+.inviteFormInput:focus,
+.inviteFormRoleTrigger:focus-visible {
+  border-color: #ef6b54;
+  box-shadow: 0 0 0 4px rgb(239 107 84 / 10%);
+}
+
+.inviteFormRolePicker {
+  position: relative;
+}
+
+.inviteFormRoleTrigger {
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;
+  border: 1px solid #dce7df;
+  border-radius: 12px;
+  outline: none;
+  background: white;
+  color: #23443c;
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.inviteFormRoleTrigger:hover {
+  border-color: #a8b9b1;
+}
+
+.inviteFormRoleTrigger:disabled {
+  cursor: not-allowed;
+  background: #f4f6fa;
+  color: #8a9993;
+}
+
+.inviteFormRoleSummary {
+  font-weight: 500;
+}
+
+.inviteFormRolePlaceholder {
+  color: #8a9993;
+}
+
+.inviteFormRoleChevron {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 150ms;
+}
+
+.inviteFormRoleChevron.is-open {
+  transform: rotate(180deg);
+}
+
+.inviteFormRoleMenu {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-height: 288px;
+  margin-top: 8px;
+  padding: 8px 0;
+  overflow-y: auto;
+  border: 1px solid #dce7df;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 12px 30px rgb(23 59 51 / 12%);
+}
+
+.inviteFormRoleOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+.inviteFormRoleOption:hover {
+  background: #f4f6fa;
+}
+
+.inviteFormRoleCheckbox {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: #173b33;
+}
+
+.inviteFormRoleDetails {
+  min-width: 0;
+}
+
+.inviteFormRoleName {
+  display: block;
+  color: #173b33;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.inviteFormRoleDescription {
+  display: block;
+  margin-top: 4px;
+  color: #71817b;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.inviteFormHelp {
+  margin-top: 8px;
+  color: #8a9993;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.inviteFormMessage {
+  padding: 12px 16px;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.inviteFormMessage--error {
+  border-color: #f2d0c8;
+  background: #fff6f2;
+  color: #a94435;
+}
+
+.inviteFormMessage--success {
+  border-color: #d3e8d8;
+  background: #f1faf3;
+  color: #276943;
+}
+
+.inviteFormSubmit {
+  display: flex;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  border-radius: 12px;
+  background: #ef6b54;
+  color: white;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgb(239 107 84 / 20%);
+  transition: background-color 150ms, opacity 150ms;
+}
+
+.inviteFormSubmit:hover {
+  background: #df5d49;
+}
+
+.inviteFormSubmit:focus-visible {
+  outline: 2px solid #173b33;
+  outline-offset: 2px;
+}
+
+.inviteFormSubmit:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (min-width: 640px) {
+  .invitePageCard {
+    padding: 36px;
+  }
+
+  .invitePageTitle {
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .invitePageDescription {
+    font-size: 16px;
+  }
+}

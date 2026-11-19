@@ -1,0 +1,47 @@
+.appShell {
+  min-height: 100dvh;
+  background: #f4f6fa;
+  color: #173b33;
+}
+
+.appSidebar {
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 17rem;
+  min-width: 0;
+  padding: 24px 16px;
+  border-right: 1px solid #dfe5ec;
+  background: white;
+  color: #173b33;
+  transition: width 200ms, opacity 200ms, padding 200ms;
+}
+
+.appSidebarCollapsed {
+  width: 0;
+  padding-right: 0;
+  padding-left: 0;
+  border-right-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Desktop layout */
+@media (min-width: 1024px) {
+  .appShell {
+    display: flex;
+  }
+
+  .appSidebar {
+    display: flex;
+  }
+}
+
+/* Respect the user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .appSidebar {
+    transition: none;
+  }
+}

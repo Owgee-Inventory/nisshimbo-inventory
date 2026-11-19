@@ -1,0 +1,239 @@
+.loginPage {
+  min-height: 100dvh;
+  padding: 2rem 1.25rem;
+  background: #f4f6fa;
+  color: #173b33;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 460px;
+  min-height: calc(100dvh - 4rem);
+  margin-inline: auto;
+  padding-top: 1rem;
+}
+
+.loginBrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.loginBrandLogo {
+  flex-shrink: 0;
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
+}
+
+.loginIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.loginBrandName {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.loginBrandSubtitle {
+  margin-top: 0.125rem;
+  color: #71817b;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.loginCard {
+  padding: 1.5rem;
+  border: 1px solid #e2e8e4;
+  border-radius: 1.5rem;
+  background: white;
+  box-shadow: 0 12px 35px rgba(23, 59, 51, 0.07);
+}
+
+.loginHeading {
+  margin-bottom: 2rem;
+}
+
+.loginTitle {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.loginDescription {
+  margin-top: 0.75rem;
+  color: #71817b;
+  font-size: 0.95rem;
+  line-height: 1.5rem;
+}
+
+.loginError {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #f2d0c8;
+  border-radius: 0.5rem;
+  background: #fff6f2;
+  color: #a94435;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.loginGoogleButton,
+.loginSubmitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 3.5rem;
+  padding-inline: 1.25rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  transition: background-color 150ms, border-color 150ms, opacity 150ms;
+}
+
+.loginGoogleButton {
+  border: 1px solid #dce7df;
+  background: white;
+  color: #23443c;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+.loginGoogleButton:hover {
+  border-color: #a8b9b1;
+  background: #f8fbf8;
+}
+
+.loginDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1.75rem;
+  color: #9aa9a3;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.loginDividerLine {
+  flex: 1;
+  height: 1px;
+  background: #dce7df;
+}
+
+.loginForm > * + * {
+  margin-top: 1.25rem;
+}
+
+.loginLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.loginInput {
+  width: 100%;
+  min-width: 0;
+  height: 3.5rem;
+  padding-inline: 1rem;
+  border: 1px solid #dce7df;
+  border-radius: 0.75rem;
+  outline: none;
+  background: white;
+  color: #173b33;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+.loginInput::placeholder {
+  color: #aab5b0;
+}
+
+.loginInput:focus {
+  border-color: #ef6b54;
+  box-shadow: 0 0 0 4px rgb(239 107 84 / 0.1);
+}
+
+.loginPasswordField {
+  position: relative;
+}
+
+.loginPasswordInput {
+  padding-right: 3rem;
+}
+
+.loginPasswordToggle {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #82918b;
+  transition: color 150ms, background-color 150ms;
+}
+
+.loginPasswordToggle:hover {
+  background: #f0f3ef;
+  color: #23443c;
+}
+
+.loginSubmitButton {
+  background: #173b33;
+  color: white;
+  box-shadow: 0 10px 24px rgba(23, 59, 51, 0.18);
+}
+
+.loginSubmitButton:hover {
+  background: #245247;
+}
+
+.loginSubmitButton:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.loginGoogleButton:focus-visible,
+.loginSubmitButton:focus-visible,
+.loginPasswordToggle:focus-visible {
+  outline: 2px solid #ef6b54;
+  outline-offset: 2px;
+}
+
+@media (min-width: 640px) {
+  .loginPage {
+    padding-inline: 2rem;
+  }
+
+  .loginContainer {
+    padding-top: 2rem;
+  }
+
+  .loginCard {
+    padding: 2.25rem;
+  }
+
+  .loginTitle {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
