@@ -1,16 +1,199 @@
+:where(.appShell),
+:where(.appShell) *,
+:where(.appShell) *::before,
+:where(.appShell) *::after {
+  box-sizing: border-box;
+}
+
+:where(.appShell) :where(p) {
+  margin: 0;
+}
+
+:where(.appShell) :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+:where(.appShell) :where(button) {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+:where(.appShell) :where(svg) {
+  display: block;
+}
+
 .appShell {
   min-height: 100dvh;
   background: #f4f6fa;
   color: #173b33;
+  font-family: var(--font-geist-sans, Arial), Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
-.appSidebar {
-  box-sizing: border-box;
-  display: none;
-  flex-direction: column;
+.appShellBrand,
+.appShellUserIdentity,
+.appShellHeaderGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.appShellBrandMark {
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-  width: 17rem;
-  min-width: 0;
+  object-fit: contain;
+}
+
+.appShellBrandName {
+  color: #173b33;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.appShellBrandSubtitle {
+  color: #71817b;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.appShellBrand--dark .appShellBrandName {
+  color: #fffaf1;
+}
+
+.appShellBrand--dark .appShellBrandSubtitle {
+  color: #b8cec3;
+}
+
+.appShellNavigation > * + * {
+  margin-top: 8px;
+}
+
+.appShellNavGroup > * + *,
+.appShellAccessLinks > * + * {
+  margin-top: 4px;
+}
+
+.appShellNavLink,
+.appShellNavPlaceholder {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.appShellNavLink {
+  color: #4f655d;
+  transition: color 150ms, background-color 150ms, box-shadow 150ms;
+}
+
+.appShellNavLink:not(.is-active):hover {
+  color: #173b33;
+  background: #eef1ec;
+}
+
+.appShellNavLink.is-active {
+  color: #fffaf1;
+  background: #173b33;
+  box-shadow: 0 8px 20px rgb(23 59 51 / 14%);
+}
+
+.appShellNavPlaceholder {
+  color: #9aa9a3;
+}
+
+.appShellNavLink--mobile,
+.appShellNavPlaceholder--mobile {
+  min-height: 40px;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.appShellNavLink--mobile {
+  color: #60736b;
+}
+
+.appShellNavLink--mobile.is-active {
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+}
+
+.appShellNavPlaceholder--mobile {
+  color: #a1aea8;
+}
+
+.appShellNavIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.appShellAccessMenu {
+  padding-top: 16px;
+}
+
+.appShellNavSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 14px;
+  border-radius: 12px;
+  color: #71817b;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 150ms, background-color 150ms;
+}
+
+.appShellNavSummary::-webkit-details-marker {
+  display: none;
+}
+
+.appShellNavSummary:hover {
+  color: #173b33;
+  background: #eef1ec;
+}
+
+.appShellNavSummary--mobile {
+  padding-right: 12px;
+  padding-left: 12px;
+  color: #91a0ad;
+}
+
+.appShellAccessChevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 150ms;
+}
+
+.appShellAccessMenu[open] .appShellAccessChevron {
+  transform: rotate(180deg);
+}
+
+.appShellAccessLinks {
+  margin-top: 8px;
+  padding-left: 8px;
+  border-left: 1px solid rgb(23 59 51 / 20%);
+}
+
+.appShellSidebar {
+  display: none;
+  width: 272px;
+  flex-shrink: 0;
+  flex-direction: column;
   padding: 24px 16px;
   border-right: 1px solid #dfe5ec;
   background: white;
@@ -18,30 +201,318 @@
   transition: width 200ms, opacity 200ms, padding 200ms;
 }
 
-.appSidebarCollapsed {
+.appShellSidebar--collapsed {
   width: 0;
+  overflow: hidden;
   padding-right: 0;
   padding-left: 0;
   border-right-width: 0;
-  overflow: hidden;
   opacity: 0;
   pointer-events: none;
 }
 
-/* Desktop layout */
-@media (min-width: 1024px) {
-  .appShell {
-    display: flex;
-  }
+.appShellSidebarBrand {
+  padding: 0 8px;
+}
 
-  .appSidebar {
-    display: flex;
+.appShellSidebarNavigation {
+  flex: 1;
+  margin-top: 48px;
+}
+
+.appShellWorkspaceLabel {
+  margin-bottom: 16px;
+  padding: 0 14px;
+  color: #91b1a4;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.appShellSidebarAccount {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e7ed;
+}
+
+.appShellUserCard {
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid #e2e7ed;
+  border-radius: 16px;
+  background: #f4f7fb;
+}
+
+.appShellAvatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: #173b33;
+  color: white;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
+.appShellAvatar--bold {
+  font-weight: 700;
+}
+
+.appShellUserDetails {
+  min-width: 0;
+}
+
+.appShellUserName {
+  overflow: hidden;
+  color: #23443c;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appShellUserStatus {
+  margin-top: 2px;
+  color: #71817b;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.appShellWorkspace {
+  display: flex;
+  min-height: 100dvh;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.appShellMobileHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid #dfe5ec;
+  background: white;
+}
+
+.appShellMobileNavigation {
+  margin-top: 16px;
+}
+
+.appShellDesktopHeader {
+  display: none;
+  height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border-bottom: 1px solid #dfe5ec;
+  background: white;
+}
+
+.appShellHeaderButton {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid #dfe5ec;
+  border-radius: 12px;
+  background: white;
+  color: #71817b;
+  transition: color 150ms, border-color 150ms, background-color 150ms;
+}
+
+.appShellHeaderButton:hover {
+  border-color: #b8c5d0;
+  background: #f8fafc;
+}
+
+.appShellHeaderButton--sidebar:hover {
+  color: #173b33;
+}
+
+.appShellHeaderButton:focus-visible {
+  outline: 2px solid #ef6b54;
+  outline-offset: 2px;
+}
+
+.appShellHeaderIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.appShellBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.appShellBreadcrumbRoot {
+  color: #91a0ad;
+  font-weight: 500;
+}
+
+.appShellBreadcrumbSeparator {
+  color: #c4cdd5;
+}
+
+.appShellBreadcrumbCurrent {
+  color: #23443c;
+  font-weight: 600;
+}
+
+.appShellHeaderHint {
+  display: none;
+  margin-right: 8px;
+  color: #71817b;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.appShellMain {
+  flex: 1;
+  padding: 32px 20px;
+}
+
+.appShellMobileFooter {
+  padding: 16px 20px;
+  border-top: 1px solid #dfe5ec;
+  background: white;
+}
+
+.signOutAction {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.signOutButton {
+  display: inline-flex;
+  width: 100%;
+  height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border: 1px solid #477065;
+  border-radius: 12px;
+  background: #21483e;
+  color: #fffaf1;
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  transition: border-color 150ms, background-color 150ms, opacity 150ms;
+}
+
+.signOutButton:hover {
+  border-color: #ef6b54;
+  background: #285247;
+}
+
+.signOutButton:focus-visible {
+  outline: 2px solid #ef6b54;
+  outline-offset: 2px;
+}
+
+.signOutButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.signOutButtonContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signOutButtonIconBox {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 8px;
+  background: rgb(239 107 84 / 15%);
+  color: #f5a08f;
+  transition: background-color 150ms;
+}
+
+.signOutButton:hover .signOutButtonIconBox {
+  background: rgb(239 107 84 / 25%);
+}
+
+.signOutButtonIcon,
+.signOutButtonArrow {
+  width: 16px;
+  height: 16px;
+}
+
+.signOutButtonArrow {
+  color: #91b1a4;
+  transition: transform 150ms, color 150ms;
+}
+
+.signOutButton:hover .signOutButtonArrow {
+  transform: translateX(2px);
+  color: #fffaf1;
+}
+
+.signOutButtonLabel,
+.signOutButtonDescription {
+  display: block;
+}
+
+.signOutButtonDescription {
+  margin-top: 2px;
+  color: #b8cec3;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.signOutError {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fff3ed;
+  color: #a94435;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@media (min-width: 640px) {
+  .appShellMain {
+    padding: 40px 32px;
   }
 }
 
-/* Respect the user's reduced-motion preference */
+@media (min-width: 1024px) {
+  .appShell,
+  .appShellSidebar,
+  .appShellDesktopHeader {
+    display: flex;
+  }
+
+  .appShellMobileHeader,
+  .appShellMobileFooter {
+    display: none;
+  }
+
+  .appShellMain {
+    padding: 48px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .appShellHeaderHint {
+    display: inline;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .appSidebar {
+  .appShellSidebar {
     transition: none;
   }
 }
