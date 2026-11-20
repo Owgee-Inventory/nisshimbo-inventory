@@ -1,0 +1,56 @@
+.deleteActionStatus {
+  color: #71817b;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.deleteActionConfirmation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.deleteActionQuestion {
+  color: #a94435;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.deleteActionButton {
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #a94435;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  transition: color 150ms, background-color 150ms;
+}
+
+.deleteActionButton:hover {
+  background: #fff3ed;
+}
+
+.deleteActionButton:focus-visible {
+  outline: 2px solid #ef6b54;
+  outline-offset: 2px;
+}
+
+.deleteActionButton--confirm {
+  background: #a94435;
+  color: white;
+}
+
+.deleteActionButton--confirm:hover {
+  background: #8e382d;
+}
+
+.deleteActionButton--cancel {
+  color: #71817b;
+}
+
+.deleteActionButton--cancel:hover {
+  background: #f4f1ea;
+  color: #23443c;
+}

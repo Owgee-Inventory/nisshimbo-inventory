@@ -4,9 +4,9 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "./app-shell.css";
 
 import SignOutButton from "@/app/dashboard/sign-out-button";
+import "./app-shell.css";
 
 type ActiveSection = "dashboard" | "users" | "roles" | "permissions" | "invite";
 
@@ -42,30 +42,18 @@ function BrandMark() {
       aria-hidden="true"
       width={48}
       height={48}
-      className="size-10 shrink-0 object-contain"
+      className="appShellBrandMark"
     />
   );
 }
 
 function BrandLockup({ dark = false }: { dark?: boolean }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className={`appShellBrand ${dark ? "appShellBrand--dark" : ""}`}>
       <BrandMark />
       <div>
-        <p
-          className={`text-[1.05rem] font-semibold tracking-[-0.02em] ${
-            dark ? "text-[#fffaf1]" : "text-[#173b33]"
-          }`}
-        >
-          Nisshimbo
-        </p>
-        <p
-          className={`text-[0.7rem] uppercase tracking-[0.22em] ${
-            dark ? "text-[#b8cec3]" : "text-[#71817b]"
-          }`}
-        >
-          Inventory
-        </p>
+        <p className="appShellBrandName">Nisshimbo</p>
+        <p className="appShellBrandSubtitle">Inventory</p>
       </div>
     </div>
   );
@@ -107,7 +95,7 @@ function NavigationIconWrap({ item }: { item: NavigationItem }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="1.5"
-      className="size-[1.125rem] shrink-0"
+      className="appShellNavIcon"
     >
       <NavigationIcon item={item.key} />
     </svg>
@@ -125,16 +113,8 @@ function NavigationLink({
 }) {
   const active = item.key === activeSection;
   const className = mobile
-    ? `flex min-h-10 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
-        active
-          ? "bg-[#173b33] text-[#fffaf1] shadow-sm"
-          : "text-[#60736b] hover:bg-[#eef1ec] hover:text-[#173b33]"
-      }`
-    : `flex min-h-11 items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold transition ${
-        active
-          ? "bg-[#173b33] text-[#fffaf1] shadow-[0_8px_20px_rgba(23,59,51,0.14)]"
-          : "text-[#4f655d] hover:bg-[#eef1ec] hover:text-[#173b33]"
-      }`;
+    ? `appShellNavLink appShellNavLink--mobile ${active ? "is-active" : ""}`
+    : `appShellNavLink ${active ? "is-active" : ""}`;
 
   return (
     <Link
@@ -155,8 +135,8 @@ function PlaceholderNavigationItem({ mobile }: { mobile: boolean }) {
       title="User management is not available yet"
       className={
         mobile
-          ? "flex min-h-10 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-[#a1aea8]"
-          : "flex min-h-11 items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold text-[#9aa9a3]"
+          ? "appShellNavPlaceholder appShellNavPlaceholder--mobile"
+          : "appShellNavPlaceholder"
       }
     >
       <NavigationIconWrap item={accessNavigation[0]} />
@@ -173,12 +153,12 @@ function Navigation({
   activeSection?: ActiveSection;
 }) {
   const summaryClass = mobile
-    ? "flex w-full cursor-pointer list-none items-center justify-between rounded-xl px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#91a0ad] transition hover:bg-[#eef1ec] hover:text-[#173b33] [&::-webkit-details-marker]:hidden"
-    : "flex w-full cursor-pointer list-none items-center justify-between rounded-xl px-3.5 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#71817b] transition hover:bg-[#eef1ec] hover:text-[#173b33] [&::-webkit-details-marker]:hidden";
+    ? "appShellNavSummary appShellNavSummary--mobile"
+    : "appShellNavSummary";
 
   return (
-    <nav className="space-y-2" aria-label="Main navigation">
-      <div className="space-y-1">
+    <nav className="appShellNavigation" aria-label="Main navigation">
+      <div className="appShellNavGroup">
         {primaryNavigation.map((item) => (
           <NavigationLink
             key={item.href}
@@ -189,7 +169,7 @@ function Navigation({
         ))}
       </div>
 
-      <details open className="group pt-4">
+      <details open className="appShellAccessMenu">
         <summary className={summaryClass}>
           <span>Access control</span>
           <svg
@@ -200,12 +180,12 @@ function Navigation({
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.8"
-            className="size-4 transition-transform group-open:rotate-180"
+            className="appShellAccessChevron"
           >
             <path d="m5.5 7.5 4.5 4.5 4.5-4.5" />
           </svg>
         </summary>
-        <div className="mt-2 space-y-1 border-l border-current/20 pl-2">
+        <div className="appShellAccessLinks">
           {accessNavigation.map((item) =>
             item.disabled ? (
               <PlaceholderNavigationItem key={item.key} mobile={mobile} />
@@ -229,8 +209,9 @@ export default function AppShell({ children, activeSection }: Props) {
   const activeLabel =
     navigation.find((item) => item.key === activeSection)?.label ?? "Workspace";
   const sidebarClassName = sidebarVisible
-    ? "appSidebar"
-    : "appSidebar appSidebarCollapsed";
+    ? "appShellSidebar"
+    : "appShellSidebar appShellSidebar--collapsed";
+
   return (
     <div className="appShell">
       <aside
@@ -239,30 +220,22 @@ export default function AppShell({ children, activeSection }: Props) {
         inert={!sidebarVisible || undefined}
         className={sidebarClassName}
       >
-        <div className="px-2">
+        <div className="appShellSidebarBrand">
           <BrandLockup />
         </div>
 
-        <div className="mt-12 flex-1">
-          <p className="mb-4 px-3.5 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#91b1a4]">
-            Workspace
-          </p>
+        <div className="appShellSidebarNavigation">
+          <p className="appShellWorkspaceLabel">Workspace</p>
           <Navigation activeSection={activeSection} />
         </div>
 
-        <div className="mt-10 border-t border-[#e2e7ed] pt-5">
-          <div className="mb-4 rounded-2xl border border-[#e2e7ed] bg-[#f4f7fb] p-3.5">
-            <div className="flex items-center gap-3">
-              <span className="grid size-9 place-items-center rounded-full bg-[#173b33] text-xs font-bold text-white">
-                BA
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-[#23443c]">
-                  Bryan Arboleda
-                </p>
-                <p className="mt-0.5 text-xs text-[#71817b]">
-                  Manager · Online
-                </p>
+        <div className="appShellSidebarAccount">
+          <div className="appShellUserCard">
+            <div className="appShellUserIdentity">
+              <span className="appShellAvatar appShellAvatar--bold">BA</span>
+              <div className="appShellUserDetails">
+                <p className="appShellUserName">Bryan Arboleda</p>
+                <p className="appShellUserStatus">Manager · Online</p>
               </div>
             </div>
           </div>
@@ -270,23 +243,23 @@ export default function AppShell({ children, activeSection }: Props) {
         </div>
       </aside>
 
-      <div className="flex min-h-dvh min-w-0 flex-1 flex-col">
-        <header className="border-b border-[#dfe5ec] bg-white px-5 py-4 lg:hidden">
+      <div className="appShellWorkspace">
+        <header className="appShellMobileHeader">
           <BrandLockup />
-          <div className="mt-4">
+          <div className="appShellMobileNavigation">
             <Navigation mobile activeSection={activeSection} />
           </div>
         </header>
 
-        <header className="hidden h-[72px] items-center justify-between border-b border-[#dfe5ec] bg-white px-8 lg:flex">
-          <div className="flex items-center gap-3">
+        <header className="appShellDesktopHeader">
+          <div className="appShellHeaderGroup">
             <button
               type="button"
               aria-controls="app-sidebar"
               aria-expanded={sidebarVisible}
               aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
               onClick={() => setSidebarVisible((visible) => !visible)}
-              className="grid size-10 place-items-center rounded-xl border border-[#dfe5ec] bg-white text-[#71817b] transition hover:border-[#b8c5d0] hover:bg-[#f8fafc] hover:text-[#173b33] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef6b54]"
+              className="appShellHeaderButton appShellHeaderButton--sidebar"
             >
               <svg
                 aria-hidden="true"
@@ -296,7 +269,7 @@ export default function AppShell({ children, activeSection }: Props) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="1.6"
-                className="size-[1.125rem]"
+                className="appShellHeaderIcon"
               >
                 {sidebarVisible ? (
                   <path d="M3.5 5h13M3.5 10h8M3.5 15h13M14 8l2 2-2 2" />
@@ -305,22 +278,20 @@ export default function AppShell({ children, activeSection }: Props) {
                 )}
               </svg>
             </button>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="font-medium text-[#91a0ad]">Inventory app</span>
-              <span className="text-[#c4cdd5]">/</span>
-              <span className="font-semibold text-[#23443c]">
-                {activeLabel}
-              </span>
+            <div className="appShellBreadcrumb">
+              <span className="appShellBreadcrumbRoot">Inventory app</span>
+              <span className="appShellBreadcrumbSeparator">/</span>
+              <span className="appShellBreadcrumbCurrent">{activeLabel}</span>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="mr-2 hidden text-sm text-[#71817b] xl:inline">
+          <div className="appShellHeaderGroup">
+            <span className="appShellHeaderHint">
               Your workspace at a glance
             </span>
             <button
               type="button"
               aria-label="Notifications"
-              className="grid size-10 place-items-center rounded-xl border border-[#dfe5ec] bg-white text-[#71817b] transition hover:border-[#b8c5d0] hover:bg-[#f8fafc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ef6b54]"
+              className="appShellHeaderButton"
             >
               <svg
                 aria-hidden="true"
@@ -330,22 +301,18 @@ export default function AppShell({ children, activeSection }: Props) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="1.6"
-                className="size-[1.125rem]"
+                className="appShellHeaderIcon"
               >
                 <path d="M5.5 8.7a4.5 4.5 0 0 1 9 0c0 4 1.5 4.3 1.5 5.3h-12c0-1 1.5-1.3 1.5-5.3ZM8.3 16h3.4" />
               </svg>
             </button>
-            <span className="grid size-9 place-items-center rounded-full bg-[#173b33] text-xs font-semibold text-white">
-              BA
-            </span>
+            <span className="appShellAvatar">BA</span>
           </div>
         </header>
 
-        <main className="flex-1 px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
-          {children}
-        </main>
+        <main className="appShellMain">{children}</main>
 
-        <footer className="border-t border-[#dfe5ec] bg-white px-5 py-4 lg:hidden">
+        <footer className="appShellMobileFooter">
           <SignOutButton />
         </footer>
       </div>
