@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { requirePermission } from "@/lib/auth/authorization";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Role } from "@/generated/prisma/client";
+import { isValidUuid } from "@/lib/validate-uuid";
 
 const RoleSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -32,7 +34,7 @@ export type RoleState = {
 export async function listRoles() {
     // await requirePermission("roles:manage");
 
-    const roles = await prisma.role.findMany({
+    return await prisma.role.findMany({
         select: {
             id: true,
             name: true,
@@ -47,14 +49,12 @@ export async function listRoles() {
             },
         },
     });
-
-    return roles;
 }
 
 export async function getRole(id: string) {
     // await requirePermission("roles:view")
 
-    const role = await prisma.role.findUnique({
+    return await prisma.role.findUnique({
         where: { id },
         select: {
             id: true,
@@ -81,8 +81,6 @@ export async function getRole(id: string) {
             },
         },
     });
-
-    return role;
 }
 
 export async function createRole(
@@ -186,4 +184,122 @@ export async function createRole(
 
     revalidatePath("/roles");
     redirect(`/roles/${result.roleId}`);
+}
+
+export async function updateRole(id: string, formData: FormData) {
+    // requirePermission("roles:update");
+
+    const isValidId = await isValidUuid(id);
+
+    if (!isValidId) {
+        return {
+            error: "Valid role ID is required.",
+        }
+    }
+
+    const roleId = await prisma.role.findUnique({
+        where: { id },
+        select: {
+            id: true,
+        },
+    });
+
+    if (!roleId) {
+        return {
+            error: "Unable to find the role."
+        }
+    }
+
+    const rawName = formData.get("name");
+    const rawDescription = formData.get("description");
+    const rawPermissionIds = formData.getAll("permissionIds");
+    const uniquePermissionIds = Array.from(new Set(rawPermissionIds));
+
+    const formValues = {
+        name: typeof rawName === "string" ? rawName: "",
+        description: typeof rawDescription === "string" ? rawDescription : "",
+        active: formData.has("active"),
+        permissionIds: rawPermissionIds.filter(
+            (value): value is string => typeof value === "string",
+        ),
+    };
+
+    const validatedFields = RoleSchema.safeParse({
+        name: formValues.name,
+        description: formValues.description,
+        active: formValues.active,
+        permissionIds: uniquePermissionIds,
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Please correct the highlighted fields.",
+            values: formValues,
+        };
+    }
+
+    const { name, description, active, permissionIds } = validatedFields.data;
+
+    const updatedRole = await prisma.$transaction(async (tx) => {
+        const role = await tx.role.update({
+            where: {
+                id: id,
+            },
+            data: {
+                name,
+                description,
+                active,
+            },
+            select: {
+                id: true,
+            },
+        });
+
+        const linkedPermissions = await tx.rolePermission.findMany({
+            where: {
+                roleId: role.id
+            },
+            select: {
+                permissionId: true,
+            }
+        });
+
+        const existingPermissionIds = new Set(
+            linkedPermissions.map((link) => link.permissionId)
+        );
+
+        const submittedPermissionIds = new Set(permissionIds);
+
+        const permissionIdsToRemove = linkedPermissions
+            .map((link) => link.permissionId)
+            .filter((permissionId) => !submittedPermissionIds.has(permissionId));
+
+        const permissionIdsToAdd = permissionIds.filter(
+            (permissionId) => !existingPermissionIds.has(permissionId),
+        );
+
+        if (permissionIdsToRemove.length > 0) {
+            await tx.rolePermission.deleteMany({
+                where: {
+                    roleId: role.id,
+                    permissionId: {
+                        in: permissionIdsToRemove,
+                    },
+                },
+            });
+        }
+
+        if (permissionIdsToAdd.length > 0) {
+            await tx.rolePermission.createMany({
+                data: permissionIdsToAdd.map((permissionId) => ({
+                    roleId,
+                    permissionId
+                })),
+            });
+        }
+    });
+
+    revalidatePath("/roles");
+    redirect(`/roles/${updatedRole.id}`);
 }
